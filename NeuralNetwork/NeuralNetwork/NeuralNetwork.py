@@ -120,7 +120,7 @@ class NeuralNetwork():
 
 
 if __name__ == '__main__':
-    NN = NeuralNetwork( 4, [10 for _ in range(10)], 4)
+    NN = NeuralNetwork( 4, [4, 4], 4)
     NN.print_structure()
     #NN.train([[1.0,1.0], [1.0,0.0], [0.0,1.0]], [1.0, 0.0, 0.0], 100)
     input = [[0,0,0,0],[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1]]
@@ -133,14 +133,14 @@ if __name__ == '__main__':
     NN.train(input, label, 50000)
     NN.print_structure()
     #output = NN.fwd_prop([1.0,1.0])
-    output = NN.fwd_prop([11,121])
+    output = NN.fwd_prop([1,0,1,0])
     #print('output: ' + str(output[len(output) - 1]))
     print('output: ' + str(output))
-    output = NN.fwd_prop([4,16])
+    output = NN.fwd_prop([1,0,0,1])
     print('output: ' + str(output))
-    output = NN.fwd_prop([3,9])
+    output = NN.fwd_prop([0,1,1,0])
     print('output: ' + str(output))
-    output = NN.fwd_prop([6,36])
+    output = NN.fwd_prop([1,1,1,1])
     print('output: ' + str(output))
 
 
