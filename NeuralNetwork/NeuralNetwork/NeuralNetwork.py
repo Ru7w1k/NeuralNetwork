@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 masterInput = [[0,0,0,0],[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1],[1,1,0,0],[1,1,0,1],[1,1,1,0],[1,1,1,1]]
 masterLabel = [[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1]]
+file = "nn3.pkl"
 
 # represents a neural layer containing neurons and their input weights 
 class NeuralLayer():
@@ -48,10 +49,10 @@ class NeuralNetwork():
             cost =  np.sum(np.power(np.asarray(label) - layersOutput[-1], 2))
             layersDelta = self.back_prop(layersOutput, np.asarray(label).reshape((len(input),self.outputSize)))
             self.adjust_weights(layersDelta, (layersOutput), np.asarray(input))
-            print('cost: ' + str(cost) + ' ' + str((i/epoch)*100) + '%')
+            print('cost: ' + str(round(cost, 20)) + ' ' + str(round((i/epoch)*100, 2)) + '%')
         
         #dump the NN to file
-        pkl_out = open("nn2.pkl", "wb")
+        pkl_out = open(file, "wb")
         pkl.dump(NN, pkl_out)
         pkl_out.close()
     
@@ -132,21 +133,21 @@ class NeuralNetwork():
 
 
 if __name__ == '__main__':
-    NN = NeuralNetwork( 4, [5, 4], 4, 0.3)
+    NN = NeuralNetwork( 2, [3, 2], 1, 0.3)
     NN.print_structure()
     #NN.train([[1.0,1.0], [1.0,0.0], [0.0,1.0]], [1.0, 0.0, 0.0], 100)
-    input = [masterInput[i] for i in [0,1,4,5,6,10,11,12,14]]
-    label = [masterLabel[i] for i in [0,1,4,5,6,10,11,12,14]]
+    #input = [masterInput[i] for i in [0,1,4,5,6,10,11,12,14]]
+    #label = [masterLabel[i] for i in [0,1,4,5,6,10,11,12,14]]
     #input = [[0,0], [0,1], [1,0], [1,1]]
-    #input = [[0,0], [0,1], [1,0], [1,1]]
+    input = [[0,0], [0,1], [1,0], [1,1]]
     #input = [[2,4],[1,1],[3,8],[5,25],[4,16],[6,37],[8,65],[7,49],[9,81],[10,105]]
     #label = [[0,0], [0,0], [1,1]]
-    #label = [[0], [1], [1], [1]]
+    label = [[0], [1], [1], [1]]
     #label = [[0], [1], [1], [0]]
     #label = [1, 1, 0, 1, 1, 0, 0, 1, 1, 0]
     
     try:
-        pkl_in = open("nn2.pkl", "rb")
+        pkl_in = open(file, "rb")
         NN = pkl.load(pkl_in)
     except:
         NN.train(input, label, 50000)
@@ -156,38 +157,40 @@ if __name__ == '__main__':
 
     outputCost = 0
 
-    for i in range(0,16):
-        output = NN.fwd_prop(masterInput[i])
-        print('input : ' + str(masterInput[i]))
-        print('output: ' + str(output[-1]))
-        outputCost += np.sum(np.power(np.asarray(masterLabel[i]) - np.asarray(output[-1]), 2))
+    #for i in range(0,16):
+    #    output = NN.fwd_prop(masterInput[i])
+    #    print('input : ' + str(masterInput[i]))
+    #    print('output: ' + str(output[-1]))
+    #    outputCost += np.sum(np.power(np.asarray(masterLabel[i]) - np.asarray(output[-1]), 2))
 
-    #output = NN.fwd_prop([1,1,0,0])
-    #print('output: ' + str(output))
-    #outputCost += np.sum(np.power(np.asarray([1,0,1,0]) - np.asarray(output[-1]), 2))
+    output = NN.fwd_prop([0,0])
+    print('output: ' + str(output))
+    outputCost += np.sum(np.power(np.asarray([0]) - np.asarray(output[-1]), 2))
 
-    #output = NN.fwd_prop([1,1,0,1])
-    #print('output: ' + str(output))
-    #outputCost += np.sum(np.power(np.asarray([1,1,1,1]) - np.asarray(output[-1]), 2))
+    output = NN.fwd_prop([0,1])
+    print('output: ' + str(output))
+    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
 
-    #output = NN.fwd_prop([1,1,1,0])
-    #print('output: ' + str(output))
-    #outputCost += np.sum(np.power(np.asarray([1,0,1,0]) - np.asarray(output[-1]), 2))
+    output = NN.fwd_prop([1,0])
+    print('output: ' + str(output))
+    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
 
-    #output = NN.fwd_prop([1,1,1,1])
+    output = NN.fwd_prop([1,1])
+    print('output: ' + str(output))
+    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
+
+    #output = NN.fwd_prop([1,0])
     #print('output: ' + str(output))
-    #outputCost += np.sum(np.power(np.asarray([1,1,1,1]) - np.asarray(output[-1]), 2))
+    #output = NN.fwd_prop([0,0])
+    #print('output: ' + str(output))
+    #output = NN.fwd_prop([0,1])
+    #print('output: ' + str(output))
+    #output = NN.fwd_prop([1,1])
+    #print('output: ' + str(output))
 
     print('test cost: ' + str(outputCost))
 
-    #output = NN.fwd_prop([1,0,0,1])
-    #print('output: ' + str(output))
-    #output = NN.fwd_prop([0,0,1,0])
-    #print('output: ' + str(output))
-    #output = NN.fwd_prop([0,1,0,1])
-    #print('output: ' + str(output))
-    #output = NN.fwd_prop([1,1,1,1])
-    #print('output: ' + str(output))
+
 
 
 
