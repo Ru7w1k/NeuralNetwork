@@ -40,7 +40,7 @@ class NeuralNetwork():
         # train for epoch number of times
         for i in range(epoch):
             layersOutput = self.fwd_prop(input)
-            cost =  np.sum(np.power(np.asarray(label) - np.asarray(layersOutput[-1]), 2))
+            cost =  np.sum(np.power(np.asarray(label) - layersOutput[-1].T, 2))
             layersDelta = self.back_prop(layersOutput, np.asarray(label).reshape((len(input),self.outputSize)))
             self.adjust_weights(layersDelta, (layersOutput), np.asarray(input))
             print('cost: ' + str(cost))
@@ -131,29 +131,29 @@ class NeuralNetwork():
 
 
 if __name__ == '__main__':
-    NN = NeuralNetwork( 4, [4,4], 4)
+    NN = NeuralNetwork( 2, [2], 1)
     NN.print_structure()
     #NN.train([[1.0,1.0], [1.0,0.0], [0.0,1.0]], [1.0, 0.0, 0.0], 100)
-    input = [[0,0,0,0],[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1]]
-    label = [[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1]]
-    #input = [[0,0],[0,1],[1,0], [1,1]]
+    #input = [[0,0,0,0],[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1]]
+    #label = [[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1]]
+    input = [[0,0], [0,1], [1,0], [1,1]]
     #input = [[2,4],[1,1],[3,8],[5,25],[4,16],[6,37],[8,65],[7,49],[9,81],[10,105]]
     #label = [[0,0], [0,0], [1,1]]
-    #label = [0, 1,1,1]
+    label = [0, 1, 1, 1]
     #label = [0, 0,0,1]
     #label = [1, 1, 0, 1, 1, 0, 0, 1, 1, 0]
-    NN.train(input, label, 60000)
+    NN.train(input, label, 80000)
     NN.print_structure()
     #output = NN.fwd_prop([1.0,1.0])
-    output = NN.fwd_prop(np.asarray([0,0,1,1]).reshape((1,4)))
+    output = NN.fwd_prop(np.asarray([0,0]).reshape((1,2)))
     #print('output: ' + str(output[len(output) - 1]))
     print('output: ' + str(output))
-    #output = NN.fwd_prop(np.asarray([0,1]).reshape((1,2)))
-    #print('output: ' + str(output))
-    #output = NN.fwd_prop(np.asarray([1,0]).reshape((1,2)))
-    #print('output: ' + str(output))
-    #output = NN.fwd_prop(np.asarray([1,1]).reshape((1,2)))
-    #print('output: ' + str(output))
+    output = NN.fwd_prop(np.asarray([0,1]).reshape((1,2)))
+    print('output: ' + str(output))
+    output = NN.fwd_prop(np.asarray([1,0]).reshape((1,2)))
+    print('output: ' + str(output))
+    output = NN.fwd_prop(np.asarray([1,1]).reshape((1,2)))
+    print('output: ' + str(output))
 
 
 
