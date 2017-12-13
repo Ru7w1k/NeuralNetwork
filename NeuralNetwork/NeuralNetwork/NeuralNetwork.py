@@ -51,10 +51,10 @@ class NeuralNetwork():
             self.adjust_weights(layersDelta, (layersOutput), np.asarray(input))
             print('cost: ' + str(round(cost, 20)) + ' ' + str(round((i/epoch)*100, 2)) + '%')
         
-        #dump the NN to file
-        pkl_out = open(file, "wb")
-        pkl.dump(NN, pkl_out)
-        pkl_out.close()
+        # dump the NN to file
+        #pkl_out = open(file, "wb")
+        #pkl.dump(NN, pkl_out)
+        #pkl_out.close()
     
 
     
@@ -146,11 +146,11 @@ if __name__ == '__main__':
     #label = [[0], [1], [1], [0]]
     #label = [1, 1, 0, 1, 1, 0, 0, 1, 1, 0]
     
-    try:
-        pkl_in = open(file, "rb")
-        NN = pkl.load(pkl_in)
-    except:
-        NN.train(input, label, 50000)
+    #try:
+    #    pkl_in = open(file, "rb")
+    #    NN = pkl.load(pkl_in)
+    #except:
+    #    NN.train(input, label, 50000)
     
     NN.train(input, label, 50000)
     NN.print_structure()
