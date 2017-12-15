@@ -3,7 +3,10 @@ import pickle as pkl
 import matplotlib.pyplot as plt
 
 masterInput = [[0,0,0,0],[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1],[1,1,0,0],[1,1,0,1],[1,1,1,0],[1,1,1,1]]
+#masterInput = [[0,0,0], [0,0,1], [0,1,0], [0,1,1], [1,0,0], [1,0,1], [1,1,0], [1,1,1]]
+#masterLabel = [[0,0,0,0],[0,0,0,1],[0,1,0,0],[0,1,0,1],[0,0,1,0],[0,0,1,1],[0,1,1,0],[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,1,0,0],[1,1,0,1],[1,0,1,0],[1,0,1,1],[1,1,1,0],[1,1,1,1]]
 masterLabel = [[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[0,0,0,0],[0,1,0,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1],[1,0,1,0],[1,1,1,1]]
+#masterLabel = [[0],[1],[1],[1],[0],[1],[1],[1]]
 file = "nn3.pkl"
 
 # represents a neural layer containing neurons and their input weights 
@@ -133,17 +136,19 @@ class NeuralNetwork():
             print(' (' + str(i.noOfNeurons) + ' ' + str(i.noOfInputsToNeuron) + ') : \n' + str(i.weights))
 
 
-def test_NN(inp, hid, out):
-    NN = NeuralNetwork( inp, hid, out, 0.3)
+def test_NN(inp, hid, out, epcs, lr):
+    NN = NeuralNetwork( inp, hid, out, lr)
     #NN.print_structure()
     #NN.train([[1.0,1.0], [1.0,0.0], [0.0,1.0]], [1.0, 0.0, 0.0], 100)
-    #input = [masterInput[i] for i in [0,1,4,5,6,10,11,12,14]]
-    #label = [masterLabel[i] for i in [0,1,4,5,6,10,11,12,14]]
+    input = [masterInput[i] for i in [0,1,4,5,6,10,11,12,14,15]]
+    label = [masterLabel[i] for i in [0,1,4,5,6,10,11,12,14,15]]
+    #input = [masterInput[i] for i in [0,1,7,5,2,3]]
+    #label = [masterLabel[i] for i in [0,1,7,5,2,3]]
     #input = [[0,0], [0,1], [1,0], [1,1]]
-    input = [[0,0], [0,1], [1,0], [1,1]]
+    #input = [[0,0], [0,1], [1,0], [1,1]]
     #input = [[2,4],[1,1],[3,8],[5,25],[4,16],[6,37],[8,65],[7,49],[9,81],[10,105]]
     #label = [[0,0], [0,0], [1,1]]
-    label = [[1], [1], [1], [0]]
+    #label = [[1], [1], [1], [0]]
     #label = [[0], [1], [1], [0]]
     #label = [1, 1, 0, 1, 1, 0, 0, 1, 1, 0]
     
@@ -153,32 +158,32 @@ def test_NN(inp, hid, out):
     #except:
     #    NN.train(input, label, 50000)
     
-    NN.train(input, label, 50000)
+    NN.train(input, label, epcs)
     #NN.print_structure()
 
     outputCost = 0
 
-    #for i in range(0,16):
-    #    output = NN.fwd_prop(masterInput[i])
-    #    print('input : ' + str(masterInput[i]))
-    #    print('output: ' + str(output[-1]))
-    #    outputCost += np.sum(np.power(np.asarray(masterLabel[i]) - np.asarray(output[-1]), 2))
+    for i in range(0,16):
+        output = NN.fwd_prop(masterInput[i])
+        #print('input : ' + str(masterInput[i]))
+        #print('output: ' + str(output[-1]))
+        outputCost += np.sum(np.power(np.asarray(masterLabel[i]) - np.asarray(output[-1]), 2))
 
-    output = NN.fwd_prop([0,0])
-    #print('output: ' + str(output))
-    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
+    #output = NN.fwd_prop([0,0])
+    ##print('output: ' + str(output))
+    #outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
 
-    output = NN.fwd_prop([0,1])
-    #print('output: ' + str(output))
-    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
+    #output = NN.fwd_prop([0,1])
+    ##print('output: ' + str(output))
+    #outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
 
-    output = NN.fwd_prop([1,0])
-    #print('output: ' + str(output))
-    outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
+    #output = NN.fwd_prop([1,0])
+    ##print('output: ' + str(output))
+    #outputCost += np.sum(np.power(np.asarray([1]) - np.asarray(output[-1]), 2))
 
-    output = NN.fwd_prop([1,1])
-    #print('output: ' + str(output))
-    outputCost += np.sum(np.power(np.asarray([0]) - np.asarray(output[-1]), 2))
+    #output = NN.fwd_prop([1,1])
+    ##print('output: ' + str(output))
+    #outputCost += np.sum(np.power(np.asarray([0]) - np.asarray(output[-1]), 2))
 
     #output = NN.fwd_prop([1,0])
     #print('output: ' + str(output))
@@ -194,21 +199,98 @@ def test_NN(inp, hid, out):
 
 if __name__ == '__main__':
     for i in range(10):
-        out1 = test_NN(2, [3, 3, 3], 1)
-        out2 = test_NN(2, [3, 3, 2], 1)
-        out3 = test_NN(2, [3, 3, 1], 1)
-        out4 = test_NN(2, [3, 2, 3], 1)
-        out5 = test_NN(2, [3, 2, 2], 1)
-        out6 = test_NN(2, [3, 2, 1], 1)
+        #out1  = test_NN(4, [4, 4], 4 , 40000, 0.3)
+        #out2  = test_NN(4, [5,5,5], 4, 40000, 0.3)
+        #out3  = test_NN(4, [5, 4], 4 , 40000, 0.3)
+        #out4  = test_NN(4, [5, 5], 4 , 40000, 0.3)
+        #out5  = test_NN(4, [4, 4], 4 , 60000, 0.3)
+        #out6  = test_NN(4, [5,5,5], 4, 60000, 0.3)
+        #out7  = test_NN(4, [5, 4], 4 , 60000, 0.3)
+        #out8  = test_NN(4, [5, 5], 4 , 60000, 0.3)
+        #out9  = test_NN(4, [4, 4], 4 , 50000, 0.3)
+        #out10 = test_NN(4, [5,5,5], 4, 50000, 0.3)
+        #out11 = test_NN(4, [5, 4], 4 , 50000, 0.3)
+        #out12 = test_NN(4, [5, 5], 4 , 50000, 0.3)
+
+        out21  = test_NN(4, [4, 4], 4 , 40000, 0.4)
+        out22  = test_NN(4, [5,5,5], 4, 40000, 0.4)
+        out23  = test_NN(4, [5, 4], 4 , 40000, 0.4)
+        out24  = test_NN(4, [5, 5], 4 , 40000, 0.4)
+        out25  = test_NN(4, [4, 4], 4 , 60000, 0.4)
+        out26  = test_NN(4, [5,5,5], 4, 60000, 0.4)
+        out27  = test_NN(4, [5, 4], 4 , 60000, 0.4)
+        out28  = test_NN(4, [5, 5], 4 , 60000, 0.4)
+        out29  = test_NN(4, [4, 4], 4 , 50000, 0.4)
+        out210 = test_NN(4, [5,5,5], 4, 50000, 0.4)
+        out211 = test_NN(4, [5, 4], 4 , 50000, 0.4)
+        out212 = test_NN(4, [5, 5], 4 , 50000, 0.4)
+
+        out31  = test_NN(4, [4, 4], 4 , 40000, 0.2)
+        out32  = test_NN(4, [5,5,5], 4, 40000, 0.2)
+        out33  = test_NN(4, [5, 4], 4 , 40000, 0.2)
+        out34  = test_NN(4, [5, 5], 4 , 40000, 0.2)
+        out35  = test_NN(4, [4, 4], 4 , 60000, 0.2)
+        out36  = test_NN(4, [5,5,5], 4, 60000, 0.2)
+        out37  = test_NN(4, [5, 4], 4 , 60000, 0.2)
+        out38  = test_NN(4, [5, 5], 4 , 60000, 0.2)
+        out39  = test_NN(4, [4, 4], 4 , 50000, 0.2)
+        out310 = test_NN(4, [5,5,5], 4, 50000, 0.2)
+        out311 = test_NN(4, [5, 4], 4 , 50000, 0.2)
+        out312 = test_NN(4, [5, 5], 4 , 50000, 0.2)
+
+        #out5 = test_NN(4, [4, 3], 4)
+        #out6 = test_NN(4, [4, 4], 4)
+        #out7 = test_NN(4, [3, 4], 4)
+        #out8 = test_NN(4, [3], 4)
+        #out9 = test_NN(4, [2], 4)
+        #out0 = test_NN(4, [4], 4)
 
         print('-- Final Results {0} --'.format(i))
-        print(out1)
-        print(out2)
-        print(out3)
-        print(out4)
-        print(out5)
-        print(out6)
-        print('-- --------------- --')
+        #print(out1)
+        #print(out2)
+        #print(out3)
+        #print(out4)
+        #print(out5)
+        #print(out6)
+        #print(out7)
+        #print(out8)
+        #print(out9)
+        #print(out10)
+        #print(out11)
+        #print(out12)
+
+        print(out21)
+        print(out22)
+        print(out23)
+        print(out24)
+        print(out25)
+        print(out26)
+        print(out27)
+        print(out28)
+        print(out29)
+        print(out210)
+        print(out211)
+        print(out212)
+
+        print(out31)
+        print(out32)
+        print(out33)
+        print(out34)
+        print(out35)
+        print(out36)
+        print(out37)
+        print(out38)
+        print(out39)
+        print(out310)
+        print(out311)
+        print(out312)
+        #print(out5)
+        #print(out6)
+        #print(out7)
+        #print(out8)
+        #print(out9)
+        #print(out0)
+        print('---------------------')
 
     input()
 
